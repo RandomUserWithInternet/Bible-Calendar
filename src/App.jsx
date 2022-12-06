@@ -1,31 +1,13 @@
 import { useState } from 'react'
 import './App.css'
+import Calendar from "./Calendar.jsx"
+import dayjs from "dayjs"
 
 function App() {
   
-  const dayOf = {
-    month: '1',
-    week: 'Monday',
-};
-
   return (
-    <div>
-      <div className="App">
-        <Day dayOf={dayOf} />
-      </div>
-    </div>
+    <Calendar />
   )
 }
 
-const Day = (props) => {
-  const dayOf = props.dayOf;
-
-  return (
-    <center>
-      <div className="border-4 box-border border-black h-24 w-32">
-        <h1>{dayOf.month}</h1>
-      </div>
-    </center>
-  );
-}
 export default App
