@@ -39,13 +39,18 @@ export default function Calendar() {
 
 //Date component
 function Date(date, partOfMonth) {
+    
     if(partOfMonth === true) {
         return (
-            <div className="w-auto h-32 m-1 p-2 font-bold border-2 hover:border-black">{date.date()}</div>
+        <>    
+            <div className="group w-auto h-32 m-1 p-2 font-bold border-2 hover:border-black">{date.date()}
+                <div className="font-normal invisible group-hover:visible"><button className="border-2 border-gray-600 p-1 rounded-md hover:bg-slate-200">Mark Finished</button></div>
+            </div>
+        </>
         )
     } else {
         return (
-            <div className="w-auto h-32 m-1 p-2 text-slate-500 border-2 hover:border-black">{date.date()}</div>
+            <div className="w-auto h-32 m-1 p-2 text-slate-500 border-2">{date.date()}</div>
         );
     }
     
