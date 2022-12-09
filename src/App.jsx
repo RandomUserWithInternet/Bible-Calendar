@@ -1,10 +1,13 @@
 import './App.css'
 import Calendar from "./Calendar.jsx"
-
+import { signInWithGoogle } from "./Firebase"
 function App() {
   
   return (
-    <Calendar />
+    <>
+      <button onClick={signInWithGoogle}> hi</button>
+      <Calendar />
+    </>
   )
 }
 
