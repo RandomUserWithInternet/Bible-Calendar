@@ -1,8 +1,34 @@
-export default function Date(date, partOfMonth, key) {
+import { useState } from "react";
+
+export default function Date(date, partOfMonth) {
+    const finishedState = {
+        completionStatus: "finished", 
+        buttonText: "Mark Unfinished", 
+        buttonStyle: "absolute inset-x-0 bottom-0 p-1 bg-red-100"
+    }
+    
+    const unfinishedState = {
+        completionStatus: "unfinished", 
+        buttonText: "Mark Finished", 
+        buttonStyle: "absolute inset-x-0 bottom-0 p-1 bg-green-100"
+    }
+    
+    const [dayState, setDayState] = useState(unfinishedState);
+
+    
+
+    function handleClick() {
+        if (dayState.completionStatus === "unfinished") {
+            setDayState(finishedState);
+        } else {
+            setDayState(unfinishedState);
+        }
+    }
+
     if(partOfMonth === true) { // Return current month date cells
         return (
-            <div className="group w-auto h-32 m-1 p-2 font-bold border-2 hover:border-black">{date.date()}
-                <div className="font-normal invisible group-hover:visible"><button className="border-2 border-gray-600 p-1 rounded-md hover:bg-slate-200">Mark Finished</button></div>
+            <div className="relative group w-auto h-32 m-1 p-2 font-bold border-2">{date.date()}
+                <div className="font-normal invisible group-hover:visible"><button onClick={handleClick} className={dayState.buttonStyle}>{dayState.buttonText}</button></div>
             </div>
         )
     } else { // Return overflow date cells

@@ -8,7 +8,7 @@ export default function MonthView(props) {
 
     return (
     <>
-        <h1 className="text-3xl mx-auto py-6 text-center">{month.str}</h1>
+        <h1 className="text-3xl mx-auto py-6 text-center">{props.month.str}</h1>
         <div className="grid grid-cols-7 gap-4 justify-center align-items-center border-t-2">
             <WeekBar />
             {/* Add extra days from previous month */}
