@@ -1,33 +1,36 @@
 import dayjs from "dayjs"
 import Date from "./Date.jsx"
 
-export default function Month(props) {
+export default function MonthView(props) {
     const year = props.month.year;
     const month = props.month.int;
     const listOfDates = getDates(year, month);
 
     return (
+    <>
+        <h1 className="text-3xl mx-auto py-6 text-center">{month.str}</h1>
         <div className="grid grid-cols-7 gap-4 justify-center align-items-center border-t-2">
             <WeekBar />
             {/* Add extra days from previous month */}
             {listOfDates.last.map(date => {
-                    return (
-                        Date(date, false, date)
-                    )
-                })}
-                {/* Add days from current month */}
-                {listOfDates.current.map(date => {
-                    return (
-                        Date(date, true, date)
-                    )
-                })}
-                {/* Add extra days from next month */}
-                {listOfDates.next.map(date => {
-                    return (
-                        Date(date, false, date)
-                    )
-                })}
+                return (
+                    Date(date, false)
+                )
+            })}
+            {/* Add days from current month */}
+            {listOfDates.current.map(date => {
+                return (
+                    Date(date, true)
+                )
+            })}
+            {/* Add extra days from next month */}
+            {listOfDates.next.map(date => {
+                return (
+                    Date(date, false)
+                )
+            })}
         </div>
+    </>
     )
 }
 
