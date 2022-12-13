@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "./Firebase";
 
 export default function Date(date, partOfMonth) {
     const finishedState = {
@@ -30,7 +32,7 @@ export default function Date(date, partOfMonth) {
     if(partOfMonth === true) { // Return current month date cells
         return (
             <div className="relative group w-auto h-32 m-1 p-2 font-bold border-2">{date.date()}
-                <img className={dayState.imageStyle} src={localStorage.getItem("profilePicture")} />
+                <img className={dayState.imageStyle} src={getPFP().then((profilePicture) => {profilePicture})} />
                 <div className="font-normal invisible group-hover:visible"><button onClick={handleClick} className={dayState.buttonStyle}>{dayState.buttonText}</button></div>
             </div>
         )
@@ -38,5 +40,17 @@ export default function Date(date, partOfMonth) {
         return (
             <div className="w-auto h-32 m-1 p-2 text-slate-500 border-2">{date.date()}</div>
         );
+    }
+}
+
+async function getPFP() {
+    const docRef = doc(db, "Groups", "test-group", "Users", "test-user");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        return docSnap.data();
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
     }
 }

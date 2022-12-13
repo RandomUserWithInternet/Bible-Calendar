@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { doc, getFirestore, setDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBb1GndPEtqOnNGNVZ4chTVIxyvGFE2GtI",
@@ -13,13 +14,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const provider = new GoogleAuthProvider();
+export const db = getFirestore(app);
 
-export function signInWithGoogle () {
-    signInWithPopup(auth, provider).then((result) => {
-        const email = result.user.email;
-        const profilePicture = result.user.photoURL;
 
-        localStorage.setItem("email", email);
-        localStorage.setItem("profilePicture", profilePicture);
-    }).catch((error) => console.log(error))
+async function setpfp(profilePicture) {
+    await setDoc(doc(db, "Groups", "test-group", "Users", "test-user"), {
+        profilePicture: profilePicture,
+    });
 }

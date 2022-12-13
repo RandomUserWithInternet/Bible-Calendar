@@ -1,14 +1,40 @@
+import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { useState } from 'react';
 import './App.css'
 import Calendar from "./Calendar.jsx"
-import { signInWithGoogle } from "./Firebase"
+import { auth } from "./Firebase"
+import Login from './Login';
+
+var currentUser = auth.currentUser;
+
+function logOut() {
+    signOut(auth).then(() => console.log("Signed Out.")).catch((error) => console.log(error));
+  }
+
 function App() {
-  
-  return (
-    <>
-      <button onClick={signInWithGoogle}> hi</button>
-      <Calendar />
-    </>
-  )
+  const [loggedIn, setLoggedIn] = useState(currentUser);
+
+  onAuthStateChanged(auth, (user) => {
+      console.log(user);
+      if(user) {
+        setLoggedIn(user);
+        var currentUser = auth.currentUser;
+      } else {
+        setLoggedIn(null);
+        var currentUser = auth.currentUser;
+      }
+    }, (error) => console.log(error));
+
+  if (loggedIn) {
+    return (
+      <div>
+        <Calendar />
+        <button onClick={logOut}>Logout</button>
+      </div>
+      )
+  } else {
+    return <Login />
+  }
 }
 
 export default App
