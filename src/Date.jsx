@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { doc, getDoc } from "firebase/firestore"
-import { db } from "./Firebase";
+import { auth, db } from "./Firebase";
 
 export default function Date(date, partOfMonth) {
+    const pfp = auth.currentUser.photoURL;
+
     const finishedState = {
         completionStatus: "finished", 
         buttonText: "Mark Unfinished", 
@@ -32,7 +34,7 @@ export default function Date(date, partOfMonth) {
     if(partOfMonth === true) { // Return current month date cells
         return (
             <div className="relative group w-auto h-32 m-1 p-2 font-bold border-2">{date.date()}
-                <img className={dayState.imageStyle} src={getPFP().then((profilePicture) => {profilePicture})} />
+                <img className={dayState.imageStyle} src={pfp} />
                 <div className="font-normal invisible group-hover:visible"><button onClick={handleClick} className={dayState.buttonStyle}>{dayState.buttonText}</button></div>
             </div>
         )
