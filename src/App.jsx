@@ -4,6 +4,7 @@ import './App.css'
 import Calendar from "./Calendar.jsx"
 import { auth } from "./Firebase"
 import Login from './Login';
+import UserSettings from './UserSettings';
 
 var currentUser = auth.currentUser;
 
@@ -27,6 +28,7 @@ function App() {
   if (loggedIn) {
     return (
       <div>
+        <UserSettings />
         <Calendar />
         <button onClick={logOut}>Logout</button>
       </div>
