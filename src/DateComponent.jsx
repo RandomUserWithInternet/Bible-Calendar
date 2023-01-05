@@ -2,7 +2,7 @@ import { useState } from "react";
 import { doc, getDoc } from "firebase/firestore"
 import { auth, db } from "./Firebase";
 
-export default function Date(date, partOfMonth) {
+export default function DateComponent(date, partOfMonth) {
     const pfp = auth.currentUser.photoURL;
 
     const finishedState = {
@@ -33,14 +33,14 @@ export default function Date(date, partOfMonth) {
 
     if(partOfMonth === true) { // Return current month date cells
         return (
-            <div className="relative group w-auto h-32 m-1 p-2 font-bold border-2">{date.date()}
+            <div className="relative group w-auto h-32 m-1 p-2 font-bold border-2">{date}
                 <img className={dayState.imageStyle} src={pfp} />
                 <div className="font-normal invisible group-hover:visible"><button onClick={handleClick} className={dayState.buttonStyle}>{dayState.buttonText}</button></div>
             </div>
         )
     } else { // Return overflow date cells
         return (
-            <div className="w-auto h-32 m-1 p-2 text-slate-500 border-2">{date.date()}</div>
+            <div className="w-auto h-32 m-1 p-2 text-slate-500 border-2">{date}</div>
         );
     }
 }

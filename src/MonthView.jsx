@@ -1,10 +1,7 @@
-import dayjs from "dayjs"
-import Date from "./Date.jsx"
+import DateComponent from "./DateComponent.jsx"
 
 export default function MonthView(props) {
-    const year = props.month.year;
-    const month = props.month.int;
-    const listOfDates = getDates(year, month);
+    const listOfDates = getDateList();
 
     return (
     <>
@@ -14,19 +11,19 @@ export default function MonthView(props) {
             {/* Add extra days from previous month */}
             {listOfDates.last.map(date => {
                 return (
-                    Date(date, false)
+                    DateComponent(date, false)
                 )
             })}
             {/* Add days from current month */}
             {listOfDates.current.map(date => {
                 return (
-                    Date(date, true)
+                    DateComponent(date, true)
                 )
             })}
             {/* Add extra days from next month */}
             {listOfDates.next.map(date => {
                 return (
-                    Date(date, false)
+                    DateComponent(date, false)
                 )
             })}
         </div>
@@ -45,11 +42,13 @@ function WeekBar() {
 }
 
 // Makes a list of all the dates to display in a month view calendar
-function getDates(year, month) {
-    
-    const currentMonth = dayjs().year(year).month(month);
-    const firstDateOfMonth = currentMonth.startOf("month");
-    const lastDateOfMonth = currentMonth.endOf("month");
+function getDateList() {
+    const firstOfMonth = new Date();
+    firstOfMonth.setDate(1);
+
+    const lastOfMonth = new Date();
+    lastOfMonth.setMonth(firstOfMonth.getMonth() + 1);
+    lastOfMonth.setDate(0);
 
     // Initializing object and arrays that will be returned
     const listOfDates = {};
@@ -58,23 +57,27 @@ function getDates(year, month) {
     const nextMonthDates = [];
 
     // Adding Previous Month Ending Dates
-    for(let i = 0; i < firstDateOfMonth.day(); i++) {
-        lastMonthDates.push(firstDateOfMonth.day(i));
+    for(let i = 0; i < firstOfMonth.getDay(); i++) {
+        var x = firstOfMonth.setDate(1 - firstOfMonth.getDay() + i);
+        lastMonthDates.push(x.getDate())
     }
     listOfDates.last = lastMonthDates;
     
     // Adding Current Month Dates
-    for(let i = firstDateOfMonth.date(); i <= lastDateOfMonth.date(); i++) {
-        currentMonthDates.push(currentMonth.date(i));
+    for(let i = firstOfMonth.getDate(); i <= lastOfMonth.getDate(); i++) {
+        const currentDate = new Date();
+        currentDate.setDate(i);
+        currentMonthDates.push(currentDate.getDate());
     }
     listOfDates.current = currentMonthDates;
 
     // Adding Next Month Starting Days
-    const remainder = 6 - lastDateOfMonth.day();
-    for(let i = lastDateOfMonth.day() + 1; i <= 6; i++) {
-        nextMonthDates.push(lastDateOfMonth.day(i));
+    for(let i = 1; i <= 6 - lastOfMonth.getDay(); i++) {
+        const currentDate = new Date();
+        currentDate.setDate(lastOfMonth.getDate() + i);
+        nextMonthDates.push(currentDate.getDate());
     }
     listOfDates.next = nextMonthDates;
-    
+
     return(listOfDates);
 }
