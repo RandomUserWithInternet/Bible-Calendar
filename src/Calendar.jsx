@@ -1,5 +1,4 @@
 import MonthView from "./MonthView.jsx"
-import { useState } from "react";
 
 export default function Calendar() {
     let month = {year: 2022, int: 11, str: "December"};
